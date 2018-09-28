@@ -40,9 +40,9 @@ function addTableTop(obj, x, y, z) {
 }
 
 
-function createTable(x, y, z) {
-    'use strict';
-
+class Table extends SceneObject {
+  constructor(x, y, z) {
+    super()
     var table = new THREE.Object3D();
 
     material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
@@ -58,27 +58,29 @@ function createTable(x, y, z) {
     table.position.x = x;
     table.position.y = y;
     table.position.z = z;
+  }
 }
 
 /**
  * Ball Object & related functions
  */
-function createBall(x, y, z) {
-  'use strict';
+class Ball extends SceneObject {
+  constructor(x, y, z){
+    super()
+    ball = new THREE.Object3D();
+    ball.userData = { jumping: true, step: 0 };
+    ball.velocity = new THREE.Vector3( 0, 0, 0 );
+    ball.acceleration = new THREE.Vector3( 0, 0, 0 );
 
-  ball = new THREE.Object3D();
-  ball.userData = { jumping: true, step: 0 };
-  ball.velocity = new THREE.Vector3( 0, 0, 0 );
-  ball.acceleration = new THREE.Vector3( 0, 0, 0 );
+    material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+    geometry = new THREE.SphereGeometry(4, 10, 10);
+    mesh = new THREE.Mesh(geometry, material);
 
-  material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-  geometry = new THREE.SphereGeometry(4, 10, 10);
-  mesh = new THREE.Mesh(geometry, material);
+    ball.add(mesh);
+    ball.position.set(x, y, z);
 
-  ball.add(mesh);
-  ball.position.set(x, y, z);
-
-  scene.add(ball);
+    scene.add(ball);
+  }
 }
 
 /**
@@ -136,29 +138,31 @@ function addChairSpindles(obj, x, y, z) {
     obj.add(mesh);
 }
 
-function createChair(x, y, z) {
-    'use strict';
+class Chair {
+    constructor(x, y, z){
+      chair = new THREE.Object3D();
+      chair.wheels = []
 
-    chair = new THREE.Object3D();
-    chair.wheels = []
+      chair.velocity = new THREE.Vector3( 0, 0, 0 );
+      chair.acceleration = new THREE.Vector3( 0, 0, 0 );
 
-    chair.velocity = new THREE.Vector3( 0, 0, 0 );
-    chair.acceleration = new THREE.Vector3( 0, 0, 0 );
+      material = new THREE.MeshBasicMaterial({ color: 0xdedede, wireframe: true });
+      geometry = new THREE.SphereGeometry(4, 10, 10);
+      mesh = new THREE.Mesh(geometry, material);
 
-    material = new THREE.MeshBasicMaterial({ color: 0xdedede, wireframe: true });
-    geometry = new THREE.SphereGeometry(4, 10, 10);
-    mesh = new THREE.Mesh(geometry, material);
-
-    chair.base = addChairBase(chair, x, y, z)
-    chair.back = addChairBack(chair, x, y, z)
-    addChairSpindles(chair, x, y, z)
-    addChairWheelsBase(chair, x, y, z)
-    var numWheels = 4;
-    for (var i = 0; i<2*Math.PI; i+=2*Math.PI/numWheels){
-      chair.wheels.push(addChairWheel(chair, x, y, z, 4, i));
+      chair.base = addChairBase(chair, x, y, z)
+      chair.back = addChairBack(chair, x, y, z)
+      addChairSpindles(chair, x, y, z)
+      addChairWheelsBase(chair, x, y, z)
+      var numWheels = 4;
+      for (var i = 0; i<2*Math.PI; i+=2*Math.PI/numWheels){
+        chair.wheels.push(addChairWheel(chair, x, y, z, 4, i));
+      }
+      
+      scene.add(chair);
+      chair.position.set(x, y, z)
     }
-
-    chair.updateWheels = function() {
+    updateWheels() {
       for (var wheel in chair.wheels){
         var rotation = 0;
         length = chair.velocity.length();
@@ -176,8 +180,7 @@ function createChair(x, y, z) {
     }
 
 
-    chair.updateBack = function() {
-
+    updateBack() {
       var rotation = Math.PI/2;
       length = chair.velocity.length();
 
@@ -196,8 +199,7 @@ function createChair(x, y, z) {
       chair.back.rotation.y = rotation;*/
     }
 
-    chair.updateBase = function() {
-
+    updateBase() {
       var rotation = Math.PI/2;
       length = chair.velocity.length();
 
@@ -209,10 +211,9 @@ function createChair(x, y, z) {
       if (z > 0) rotation -= Math.acos(x);
       else rotation += Math.acos(x);
       rotateObjectAround(chair.base, chair.base.position, 0, rotation);
-
     }
 
-    chair.update = function() {
+    update() {
       var delta = clock.getDelta();
 
       chair.updateWheels()
@@ -229,8 +230,4 @@ function createChair(x, y, z) {
       chair.position.z += chair.velocity.z*delta
 
     }
-
-    scene.add(chair);
-
-    chair.position.set(x, y, z)
   }
