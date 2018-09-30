@@ -4,6 +4,9 @@ var camera, scene, renderer;
 
 var geometry, material, mesh;
 
+var objects = []; // Objects in the scene
+var objects_named = {} // object that are named and need to be called
+
 var ball;
 var chair;
 
@@ -17,15 +20,39 @@ function createScene() {
 
     scene.add(new THREE.AxisHelper(10));
 
-    new Table(0, 8, 0);
-    new Ball(0, 0, 15);
-    new Chair(0, 8, 15);
+    // object creation
+    addObject( new Table(0, 8, 0),  "table");
+    addObject( new Ball(0, 0, 15),  "ball" );
+    addObject( new Chair(0, 8, 15), "chair");
 }
 
-function createLamp() {
-  var spotLight = new THREE.SpotLight( 0xffffff );
-  spotLight.position.set( 0, 0, 0 );
-  scene.add(spotLight);
+/**
+ * Adds an object to the list of tracket objects in the scene
+ * @param {SceneObject} object - The Object add with "new ObjectName(params)"
+ * @param {string} name - (Optional) Name for referencing the object
+ */
+function addObject(object, name){
+  if (typeof name !== "undefined"){ //if it is a named object
+    if (objects_named[name] === "undefined") {
+      console.log("give the object another name")
+    } else {
+      objects_named[name]=object;
+    }
+  }
+  objects.push(object); // add object to the generic array of scene objects
+}
+
+/**
+ * Gets an object of a specified name
+ * @param {string} name - Name the object we want
+ * @return {SceneObject} object - The Object being retrieved
+ */
+function getObject(name){
+  if (objects_named[name] !== "undefined") {
+    return objects_named[name]
+  } else {
+    console.log("error: object is not in the list")
+  }
 }
 
 function createCamera() {
@@ -80,17 +107,26 @@ function switchCamera() {
 function onResize() {
     'use strict';
 
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    /*
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     if (window.innerHeight > 0 && window.innerWidth > 0) {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-    }
-
+    }*/
 }
 
 function onKeyDown(e) {
     'use strict';
+
+    // getting the objects
+    chair = getObject("chair");
+    //console.log(chair)
+
     console.log(e.keyCode)
     switch (e.keyCode) {
     case 66: //B
@@ -102,8 +138,8 @@ function onKeyDown(e) {
         });
         break;
     case 37: // left
-        //ball.velocity.x -= 1
-        chair.velocity.x -= 1
+        chair.change_velocity(-1)
+        //chair.velocity.x -= 1
         break;
     case 38: // up
         //ball.velocity.z -= 1
@@ -111,7 +147,8 @@ function onKeyDown(e) {
         break;
     case 39: // right
         //ball.velocity.x += 1
-        chair.velocity.x += 1
+        //chair.velocity.x += 1
+        chair.change_velocity(+1)
         break;
     case 40: // down
         //ball.velocity.z += 1
@@ -157,7 +194,6 @@ function init() {
 
     createScene();
     createCamera();
-    createLamp();
 
     render();
 
@@ -178,7 +214,6 @@ function animate() {
     scene.traverse(function (node) {
         if (node instanceof THREE.Object3D) {
           if (typeof node.update === 'function') node.update();
-          //node.update()
         }
       });
 

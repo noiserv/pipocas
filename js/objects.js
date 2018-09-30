@@ -8,8 +8,18 @@
 class SceneObject {
   constructor() {
     // Physics Variables
-    this.velocity = 0
-    this.acceleration = 0
+    this.velocity = new THREE.Vector3( 0, 0, 0 );
+    this.acceleration = new THREE.Vector3( 0, 0, 0 );
+
+    // THREE.js Object3D
+
+  }
+
+/**
+ * Scales the Velocity by a factor
+ */
+  change_velocity(value) {
+    this.velocity += value;
   }
 
   // update function is called to update the object
@@ -138,8 +148,10 @@ function addChairSpindles(obj, x, y, z) {
     obj.add(mesh);
 }
 
-class Chair {
+class Chair extends SceneObject {
     constructor(x, y, z){
+      super()
+
       chair = new THREE.Object3D();
       chair.wheels = []
 
@@ -158,10 +170,13 @@ class Chair {
       for (var i = 0; i<2*Math.PI; i+=2*Math.PI/numWheels){
         chair.wheels.push(addChairWheel(chair, x, y, z, 4, i));
       }
-      
+
+      chair.update = function() { Chair.prototype.update()}
+
       scene.add(chair);
       chair.position.set(x, y, z)
     }
+
     updateWheels() {
       for (var wheel in chair.wheels){
         var rotation = 0;
@@ -182,6 +197,9 @@ class Chair {
 
     updateBack() {
       var rotation = Math.PI/2;
+      console.log(chair.velocity)
+      console.log(chair.velocity.length)
+      console.log(chair.velocity.length())
       length = chair.velocity.length();
 
       if (length == 0) return;
@@ -214,11 +232,12 @@ class Chair {
     }
 
     update() {
+      console.log("updated chair")
       var delta = clock.getDelta();
 
-      chair.updateWheels()
-      chair.updateBack()
-      chair.updateBase()
+      this.updateWheels()
+      this.updateBack()
+      this.updateBase()
 
       chair.velocity.x += chair.acceleration.x*delta
       chair.position.x += chair.velocity.x*delta
