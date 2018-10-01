@@ -176,6 +176,9 @@ class Chair {
         else rotation = Math.acos(x);
 
         chair.wheels[wheel].rotation.y = rotation;
+
+        rotation = length / 100
+        chair.wheels[wheel].rotation.z = rotation;
       }
     }
 
