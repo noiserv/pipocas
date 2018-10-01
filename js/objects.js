@@ -18,6 +18,68 @@ class SceneObject {
   }
 }
 
+/**
+ * Lamp Object & related functions
+ */
+function addLampBase(obj, x, y, z) {
+    'use strict';
+
+    geometry = new THREE.CylinderGeometry(8, 8, 0.5);
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y + 0.25, z);
+    obj.add(mesh);
+}
+
+function addLampFoot(obj, x, y, z) {
+    'use strict';
+
+    geometry = new THREE.CylinderGeometry(0.5, 0.5, 44);
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y + 22.5, z);
+    obj.add(mesh);
+}
+
+function addLampBulb(obj, x, y, z) {
+    'use strict';
+
+    geometry = new THREE.SphereGeometry(1.5, 8, 6);
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y + 43.25, z);
+    obj.add(mesh);
+}
+
+function addLampCover(obj, x, y, z) {
+    'use strict';
+
+    geometry = new THREE.ConeGeometry(6, 10, 16, true, 0, 2*Math.PI);
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y + 45, z);
+    mesh.rotateX(Math.PI);
+    obj.add(mesh);
+}
+
+
+
+class Lamp extends SceneObject {
+  constructor(x, y, z) {
+    super()
+    var lamp = new THREE.Object3D();
+
+    material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+
+    addLampBase(lamp, 0, 0, 0);
+    addLampFoot(lamp, 0, 0, 0);
+    addLampBulb(lamp, 0, 0, 0);
+    addLampCover(lamp, 0, 0, 0);
+
+    scene.add(lamp);
+
+    lamp.position.x = x;
+    lamp.position.y = y;
+    lamp.position.z = z;
+  }
+}
+
 
 /**
  * Table Object & related functions
@@ -25,7 +87,7 @@ class SceneObject {
 function addTableLeg(obj, x, y, z) {
     'use strict';
 
-    geometry = new THREE.CubeGeometry(2, 6, 2);
+    geometry = new THREE.CylinderGeometry(1, 1, 6);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y - 3, z);
     obj.add(mesh);
@@ -77,7 +139,7 @@ class Ball extends SceneObject {
     mesh = new THREE.Mesh(geometry, material);
 
     ball.add(mesh);
-    ball.position.set(x, y, z);
+    ball.position.set(x, y + 4, z);
 
     scene.add(ball);
   }
