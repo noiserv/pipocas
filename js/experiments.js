@@ -35,7 +35,7 @@ function createLight() {
 
 /**
  * Adds an object to the list of tracket objects in the scene
- * @param {SceneObject} object - The Object add with "new ObjectName(params)"
+ * @param {EntidadeGrafica} object - The Object add with "new ObjectName(params)"
  * @param {string} name - (Optional) Name for referencing the object
  */
 function addObject(object, name){

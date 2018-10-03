@@ -1,9 +1,13 @@
 # todo list
-* deceleration
-* update window on re-size
+* optimization
+
+## Fields
+* chair motion (rotate Left and Right)
+* table (remodelar + mudar cor)
 * rotating wheels
-* lamp
-* table
-* chair motion (rotate Left and Right) **(Noiserv)**
-* object oriented
+* make beautiful
+
+## Noiserv
+* update window on re-size
+* deceleration (up down)
 * make beautiful
