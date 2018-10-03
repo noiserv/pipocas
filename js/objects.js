@@ -3,7 +3,7 @@
  */
 
 /**
- * Generic Object
+ * Generic Object - basically a decorated THREE.js Object3D
  */
 class SceneObject {
   constructor() {
@@ -12,14 +12,22 @@ class SceneObject {
     this.acceleration = new THREE.Vector3( 0, 0, 0 );
 
     // THREE.js Object3D
+    this.mesh;
+  }
 
+  position(){ return this.mesh.position }
+
+  // rotates the object arround its Y axis
+  rotateY(radians){
+    this.mesh.rotateY(radians)
   }
 
 /**
  * Scales the Velocity by a factor
  */
   change_velocity(value) {
-    this.velocity += value;
+    this.velocity.addScalar(value);
+    console.log("changing velocity")
   }
 
   // update function is called to update the object
@@ -153,10 +161,8 @@ class Chair extends SceneObject {
       super()
 
       chair = new THREE.Object3D();
+      this.mesh = chair;
       chair.wheels = []
-
-      chair.velocity = new THREE.Vector3( 0, 0, 0 );
-      chair.acceleration = new THREE.Vector3( 0, 0, 0 );
 
       material = new THREE.MeshBasicMaterial({ color: 0xdedede, wireframe: true });
       geometry = new THREE.SphereGeometry(4, 10, 10);
@@ -180,12 +186,12 @@ class Chair extends SceneObject {
     updateWheels() {
       for (var wheel in chair.wheels){
         var rotation = 0;
-        length = chair.velocity.length();
+        length = this.velocity.length();
 
         if (length == 0) break;
 
-        x = chair.velocity.x / length;
-        z = chair.velocity.z / length;
+        x = this.velocity.x / length;
+        z = this.velocity.z / length;
 
         if (z > 0) rotation = -Math.acos(x);
         else rotation = Math.acos(x);
@@ -194,22 +200,18 @@ class Chair extends SceneObject {
       }
     }
 
-
     updateBack() {
       var rotation = Math.PI/2;
-      console.log(chair.velocity)
-      console.log(chair.velocity.length)
-      console.log(chair.velocity.length())
-      length = chair.velocity.length();
+      length = this.velocity.length();
 
       if (length == 0) return;
-
-      x = chair.velocity.x / length;
-      z = chair.velocity.z / length;
+      console.log(this.velocity.x)
+      var x = this.velocity.x / length;
+      var z = this.velocity.z;
 
       if (z > 0) rotation -= Math.acos(x);
       else rotation += Math.acos(x);
-      rotateObjectAround(chair.back, chair.base.position, 7.5, rotation);
+      rotateObjectAround(this.mesh.back, this.mesh.base.position, 7.5, rotation);
 
       /*chair.back.position.x = chair.base.position.x - Math.sin(rotation)*7.5;
       chair.back.position.z = chair.base.position.z - Math.cos(rotation)*7.5;
@@ -219,16 +221,16 @@ class Chair extends SceneObject {
 
     updateBase() {
       var rotation = Math.PI/2;
-      length = chair.velocity.length();
+      length = this.velocity.length();
 
       if (length == 0) return;
 
-      x = chair.velocity.x / length;
-      z = chair.velocity.z / length;
+      var x = this.velocity.x / length;
+      var z = this.velocity.z;
 
       if (z > 0) rotation -= Math.acos(x);
       else rotation += Math.acos(x);
-      rotateObjectAround(chair.base, chair.base.position, 0, rotation);
+      rotateObjectAround(this.mesh.base, this.mesh.base.position, 0, rotation);
     }
 
     update() {
@@ -236,17 +238,17 @@ class Chair extends SceneObject {
       var delta = clock.getDelta();
 
       this.updateWheels()
-      this.updateBack()
       this.updateBase()
+      this.updateBack()
 
-      chair.velocity.x += chair.acceleration.x*delta
-      chair.position.x += chair.velocity.x*delta
+      this.velocity.x += this.acceleration.x*delta
+      this.mesh.position.x += this.velocity.x*delta
 
-      chair.velocity.y += chair.acceleration.y*delta
-      chair.position.y += chair.velocity.y*delta
+      this.velocity.y += this.acceleration.y*delta
+      this.mesh.position.y += this.velocity.y*delta
 
-      chair.velocity.z += chair.acceleration.z*delta
-      chair.position.z += chair.velocity.z*delta
+      this.velocity.z += this.acceleration.z*delta
+      this.mesh.position.z += this.velocity.z*delta
 
     }
   }

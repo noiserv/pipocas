@@ -143,7 +143,7 @@ function onKeyDown(e) {
         break;
     case 38: // up
         //ball.velocity.z -= 1
-        chair.velocity.z -= 1
+        //chair.velocity.z -= 1
         break;
     case 39: // right
         //ball.velocity.x += 1
@@ -152,7 +152,7 @@ function onKeyDown(e) {
         break;
     case 40: // down
         //ball.velocity.z += 1
-        chair.velocity.z += 1
+        //chair.velocity.z += 1
         break;
     case 49: // 1
         createCameraTop();
@@ -211,11 +211,15 @@ function animate() {
         ball.position.z = 15 * (Math.cos(ball.userData.step));
     }*/
 
-    scene.traverse(function (node) {
+    objects.map( function(object) {
+      console.log(">>>>")
+      if (typeof object.update === 'function') object.update();
+    });
+    /*scene.traverse(function (node) {
         if (node instanceof THREE.Object3D) {
           if (typeof node.update === 'function') node.update();
         }
-      });
+      });*/
 
 
 
