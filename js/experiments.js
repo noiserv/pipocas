@@ -24,6 +24,13 @@ function createScene() {
     addObject( new Table(0, 8, 0),  "table");
     addObject( new Ball(0, 0, 15),  "ball" );
     addObject( new Chair(0, 8, 15), "chair");
+    addObject( new Lamp(30, 0, -25), "lamp");
+}
+
+function createLight() {
+  var spotLight = new THREE.SpotLight( 0xffffff );
+  spotLight.position.set( 0, 0, 0 );
+  scene.add(spotLight);
 }
 
 /**
@@ -194,6 +201,7 @@ function init() {
 
     createScene();
     createCamera();
+    createLight();
 
     render();
 
