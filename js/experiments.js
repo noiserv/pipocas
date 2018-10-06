@@ -71,6 +71,7 @@ function createCamera() {
     camera.position.y = 1;
     camera.position.z = 1;
     camera.lookAt(scene.position);
+  onResize() // update to the scale once
 }
 
 function createCameraTop() {
@@ -112,19 +113,17 @@ function switchCamera() {
 }
 
 function onResize() {
-    'use strict';
+  'use strict';
 
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
-    /*
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    if (window.innerHeight > 0 && window.innerWidth > 0) {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-    }*/
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  var viewSize =  60 * (1 / h + 1 / w);
+  camera.left = w / - 2 * viewSize;
+  camera.right = w / 2 * viewSize;
+  camera.top = h / 2 * viewSize;
+  camera.bottom = h / - 2 * viewSize;
+  camera.updateProjectionMatrix();
+  renderer.setSize( w, h );
 }
 
 function onKeyDown(e) {
