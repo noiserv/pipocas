@@ -2,7 +2,7 @@
 
 var camera, scene, renderer;
 
-var geometry, material, mesh;
+//var geometry, material, mesh;
 
 var objects = []; // Objects in the scene
 var objects_named = {} // object that are named and need to be called

@@ -34,7 +34,7 @@ class Lamp extends GraphicalEntity {
   constructor(x, y, z) {
     super()
 
-    material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
 
     this.addLampBase( 0, 0, 0);
     this.addLampFoot( 0, 0, 0);
@@ -49,29 +49,29 @@ class Lamp extends GraphicalEntity {
   }
 
   addLampBase( x, y, z) {
-      geometry = new THREE.CylinderGeometry(8, 8, 0.5);
-      mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.CylinderGeometry(8, 8, 0.5);
+      var mesh = new THREE.Mesh(geometry, this.material);
       mesh.position.set(x, y + 0.25, z);
       this.add(mesh);
   }
 
   addLampFoot( x, y, z) {
-      geometry = new THREE.CylinderGeometry(0.5, 0.5, 44);
-      mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.CylinderGeometry(0.5, 0.5, 44);
+      var mesh = new THREE.Mesh(geometry, this.material);
       mesh.position.set(x, y + 22.5, z);
       this.add(mesh);
   }
 
   addLampBulb( x, y, z) {
-      geometry = new THREE.SphereGeometry(1.5, 8, 6);
-      mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.SphereGeometry(1.5, 8, 6);
+      var mesh = new THREE.Mesh(geometry, this.material);
       mesh.position.set(x, y + 43.25, z);
       this.add(mesh);
   }
 
   addLampCover( x, y, z) {
-      geometry = new THREE.ConeGeometry(6, 10, 16, true, 0, 2*Math.PI);
-      mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.ConeGeometry(6, 10, 16, true, 0, 2*Math.PI);
+      var mesh = new THREE.Mesh(geometry, this.material);
       mesh.position.set(x, y + 45, z);
       mesh.rotateX(Math.PI);
       this.add(mesh);
@@ -86,7 +86,7 @@ class Table extends GraphicalEntity {
   constructor(x, y, z) {
     super()
 
-    material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
 
     this.addTableTop(  0,  0,  0);
     this.addTableLeg(-25, -1, -8);
@@ -102,15 +102,15 @@ class Table extends GraphicalEntity {
   }
 
   addTableLeg( x, y, z) {
-      geometry = new THREE.CylinderGeometry(1, 1, 6);
-      mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.CylinderGeometry(1, 1, 6);
+      var mesh = new THREE.Mesh(geometry, this.material);
       mesh.position.set(x, y - 3, z);
       this.add(mesh);
   }
 
   addTableTop( x, y, z) {
-      geometry = new THREE.CubeGeometry(60, 2, 20);
-      mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.CubeGeometry(60, 2, 20);
+      var mesh = new THREE.Mesh(geometry, this.material);
       mesh.position.set(x, y, z);
       this.add(mesh);
   }
@@ -122,19 +122,19 @@ class Table extends GraphicalEntity {
 class Ball extends GraphicalEntity {
   constructor(x, y, z){
     super()
-    ball = new THREE.Object3D();
-    ball.userData = { jumping: true, step: 0 };
-    ball.velocity = new THREE.Vector3( 0, 0, 0 );
-    ball.acceleration = new THREE.Vector3( 0, 0, 0 );
 
-    material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-    geometry = new THREE.SphereGeometry(4, 10, 10);
-    mesh = new THREE.Mesh(geometry, material);
+    this.userData = { jumping: true, step: 0 };
+    this.velocity = new THREE.Vector3( 0, 0, 0 );
+    this.acceleration = new THREE.Vector3( 0, 0, 0 );
 
-    ball.add(mesh);
-    ball.position.set(x, y + 4, z);
+    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+    var geometry = new THREE.SphereGeometry(4, 10, 10);
+    var mesh = new THREE.Mesh(geometry, this.material);
 
-    scene.add(ball);
+    this.add(mesh);
+    this.position.set(x, y + 4, z);
+
+    scene.add(this);
   }
 }
 
@@ -148,8 +148,8 @@ class Chair extends GraphicalEntity {
       this.wheels = []
 
       this.material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, wireframe: true });
-      this.geometry = new THREE.SphereGeometry(4, 10, 10);
-      this.mesh = new THREE.Mesh(geometry, material);
+      var geometry = new THREE.SphereGeometry(4, 10, 10);
+      this.mesh = new THREE.Mesh(geometry, this.material);
 
       this.base = this.addChairBase( x, y, z)
       this.back = this.addChairBack( x, y, z)
@@ -166,8 +166,8 @@ class Chair extends GraphicalEntity {
 
     addChairWheelsBase( x, y, z) {
         'use strict';
-        var geometry = new  THREE.TorusGeometry(4, 1, 8, 20, Math.PI * 2),
-        mesh = new THREE.Mesh(geometry, this.material);
+        var geometry = new  THREE.TorusGeometry(4, 1, 8, 20, Math.PI * 2);
+        var mesh = new THREE.Mesh(geometry, this.material);
         mesh.rotation.x = Math.PI / 2;
         mesh.position.set(x, y - 12, z);
         this.add(mesh);
@@ -176,15 +176,15 @@ class Chair extends GraphicalEntity {
     addChairSpindles( x, y, z) {
         'use strict';
         var geometry = new THREE.CubeGeometry(1, 9, 1);
-        mesh = new THREE.Mesh(geometry, this.material);
+        var mesh = new THREE.Mesh(geometry, this.material);
         mesh.position.set(x, y - 7, z);
         this.add(mesh);
     }
 
     addChairWheel( x, y, z, radious, rotation) {
         'use strict';
-        var geometry = new  THREE.TorusGeometry(0.5, 1, 3, 10, Math.PI * 2),
-        mesh = new THREE.Mesh(geometry, this.material);
+        var geometry = new  THREE.TorusGeometry(0.5, 1, 3, 10, Math.PI * 2);
+        var mesh = new THREE.Mesh(geometry, this.material);
         console.log(Math.cos(rotation)*radious)
         console.log(Math.sin(rotation)*radious)
         x += Math.cos(rotation)*radious
@@ -199,7 +199,7 @@ class Chair extends GraphicalEntity {
        'use strict';
 
        var geometry = new THREE.CubeGeometry(15, 15, 2);
-       mesh = new THREE.Mesh(geometry, this.material);
+       var mesh = new THREE.Mesh(geometry, this.material);
        mesh.position.set(x, y+4, z-6.5);
        this.add(mesh);
 
@@ -209,7 +209,7 @@ class Chair extends GraphicalEntity {
    addChairBase( x, y, z) {
        'use strict';
        var geometry = new THREE.CubeGeometry(15, 1.5, 15);
-       mesh = new THREE.Mesh(geometry, this.material);
+       var mesh = new THREE.Mesh(geometry, this.material);
        mesh.position.set(x, y - 3, z);
        this.add(mesh);
 
