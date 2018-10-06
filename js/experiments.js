@@ -144,21 +144,16 @@ function onKeyDown(e) {
         });
         break;
     case 37: // left
-        chair.change_velocity(-1)
-        //chair.velocity.x -= 1
+        chair.rotate(10) // in degrees
         break;
     case 38: // up
-        //ball.velocity.z -= 1
-        //chair.velocity.z -= 1
-        break;
-    case 39: // right
-        //ball.velocity.x += 1
-        //chair.velocity.x += 1
         chair.change_velocity(+1)
         break;
+    case 39: // right
+        chair.rotate(-10) // in degrees
+        break;
     case 40: // down
-        //ball.velocity.z += 1
-        //chair.velocity.z += 1
+        chair.change_velocity(-1)
         break;
     case 49: // 1
         createCameraTop();
@@ -171,7 +166,6 @@ function onKeyDown(e) {
         break
     case 83:  //S
     case 115: //s
-        ball.userData.jumping = !ball.userData.jumping;
         break;
     case 69:  //E
     case 101: //e
@@ -219,7 +213,6 @@ function animate() {
     }*/
 
     objects.map( function(object) {
-      console.log(">>>>")
       if (typeof object.update === 'function') object.update();
     });
     /*scene.traverse(function (node) {

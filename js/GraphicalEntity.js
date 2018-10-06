@@ -10,20 +10,32 @@ class GraphicalEntity extends THREE.Object3D {
     super()
 
     // Physics Variables
-    this.velocity = new THREE.Vector3( 0, 0, 0 );
-    this.acceleration = new THREE.Vector3( 0, 0, 0 );
+    this.dof = new THREE.Vector3( 0, 0, 0 ); // facing direction
+    this.velocity = 0//= new THREE.Vector3( 0, 0, 0 );
+    this.acceleration = 0 //= new THREE.Vector3( 0, 0, 0 );
   }
 
 /**
  * Scales the Velocity by a factor
  */
   change_velocity(value) {
-    this.velocity.addScalar(value);
+    this.velocity += value
     console.log("changing velocity")
+  }
+
+  // accepts value in degrees
+  rotate(value) {
+    this.rotation.y += Math.PI*2*(value/360)
   }
 
   // update function is called to update the object
   update() {  }
+
+  update_dof(){
+    this.dof.x = Math.sin(this.rotation.y)
+    this.dof.z = Math.cos(this.rotation.y)
+    console.log(this.dof.x + " " +this.dof.z)
+  }
 }
 
 
@@ -151,13 +163,13 @@ class Chair extends GraphicalEntity {
       var geometry = new THREE.SphereGeometry(4, 10, 10);
       this.mesh = new THREE.Mesh(geometry, this.material);
 
-      this.base = this.addChairBase( x, y, z)
-      this.back = this.addChairBack( x, y, z)
-      this.addChairSpindles( x, y, z)
-      this.addChairWheelsBase( x, y, z)
+      this.base = this.addChairBase( 0, 0, 0 )
+      this.back = this.addChairBack( 0, 0, 0 )
+      this.addChairSpindles( 0, 0, 0 )
+      this.addChairWheelsBase( 0, 0, 0 )
       var numWheels = 4;
       for (var i = 0; i<2*Math.PI; i+=2*Math.PI/numWheels){
-        this.wheels.push(this.addChairWheel( x, y, z, 4, i));
+        this.wheels.push(this.addChairWheel( 0, 0, 0, 4, i));
       }
 
       scene.add(this);
@@ -185,11 +197,10 @@ class Chair extends GraphicalEntity {
         'use strict';
         var geometry = new  THREE.TorusGeometry(0.5, 1, 3, 10, Math.PI * 2);
         var mesh = new THREE.Mesh(geometry, this.material);
-        console.log(Math.cos(rotation)*radious)
-        console.log(Math.sin(rotation)*radious)
         x += Math.cos(rotation)*radious
         z += Math.sin(rotation)*radious;
         mesh.position.set(x, y - 14, z);
+        mesh.rotation.y += Math.PI/2
         this.add(mesh);
 
         return mesh;
@@ -218,14 +229,12 @@ class Chair extends GraphicalEntity {
 
 
     updateWheels() {
+      // no longer needed
       for (var wheel in this.wheels){
         var rotation = 0;
-        length = this.velocity.length();
 
-        if (length == 0) break;
-
-        x = this.velocity.x / length;
-        z = this.velocity.z / length;
+        var x = this.dof.x;
+        var z = this.dof.z;
 
         if (z > 0) rotation = -Math.acos(x);
         else rotation = Math.acos(x);
@@ -237,55 +246,16 @@ class Chair extends GraphicalEntity {
       }
     }
 
-    updateBack() {
-      var rotation = Math.PI/2;
-      length = this.velocity.length();
-
-      if (length == 0) return;
-      console.log(this.velocity.x)
-      var x = this.velocity.x / length;
-      var z = this.velocity.z;
-
-      if (z > 0) rotation -= Math.acos(x);
-      else rotation += Math.acos(x);
-      rotateObjectAround(this.mesh.back, this.mesh.base.position, 7.5, rotation);
-
-      /*chair.back.position.x = chair.base.position.x - Math.sin(rotation)*7.5;
-      chair.back.position.z = chair.base.position.z - Math.cos(rotation)*7.5;
-
-      chair.back.rotation.y = rotation;*/
-    }
-
-    updateBase() {
-      var rotation = Math.PI/2;
-      length = this.velocity.length();
-
-      if (length == 0) return;
-
-      var x = this.velocity.x / length;
-      var z = this.velocity.z;
-
-      if (z > 0) rotation -= Math.acos(x);
-      else rotation += Math.acos(x);
-      rotateObjectAround(this.mesh.base, this.mesh.base.position, 0, rotation);
-    }
-
     update() {
-      console.log("updated chair")
       var delta = clock.getDelta();
+      this.update_dof()
+      //this.updateWheels()
 
-      this.updateWheels()
-      this.updateBase()
-      this.updateBack()
 
-      this.velocity.x += this.acceleration.x*delta
-      this.mesh.position.x += this.velocity.x*delta
+      this.velocity += this.acceleration*delta
+      this.position.x += this.velocity*delta*this.dof.x
 
-      this.velocity.y += this.acceleration.y*delta
-      this.mesh.position.y += this.velocity.y*delta
-
-      this.velocity.z += this.acceleration.z*delta
-      this.mesh.position.z += this.velocity.z*delta
+      this.position.z += this.velocity*delta*this.dof.z
 
     }
   }
