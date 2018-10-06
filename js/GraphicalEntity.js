@@ -20,7 +20,6 @@ class GraphicalEntity extends THREE.Object3D {
  */
   change_velocity(value) {
     this.velocity += value
-    console.log("changing velocity")
   }
 
   // accepts value in degrees
@@ -34,7 +33,6 @@ class GraphicalEntity extends THREE.Object3D {
   update_dof(){
     this.dof.x = Math.sin(this.rotation.y)
     this.dof.z = Math.cos(this.rotation.y)
-    console.log(this.dof.x + " " +this.dof.z)
   }
 }
 
@@ -47,6 +45,7 @@ class Lamp extends GraphicalEntity {
     super()
 
     this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    this.name = "lamp"
 
     this.addLampBase( 0, 0, 0);
     this.addLampFoot( 0, 0, 0);
@@ -99,6 +98,7 @@ class Table extends GraphicalEntity {
     super()
 
     this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    this.name = "Table"
 
     this.addTableTop(  0,  0,  0);
     this.addTableLeg(-25, -1, -8);
@@ -136,11 +136,10 @@ class Chair extends GraphicalEntity {
       super()
 
       this.wheels = []
+      this.name = "chair"
 
       this.material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, wireframe: true });
-      var geometry = new THREE.SphereGeometry(4, 10, 10);
-      this.mesh = new THREE.Mesh(geometry, this.material);
-
+      
       this.base = this.addChairBase( 0, 0, 0 )
       this.back = this.addChairBack( 0, 0, 0 )
       this.addChairSpindles( 0, 0, 0 )

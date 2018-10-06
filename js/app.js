@@ -68,6 +68,16 @@ function createCamera() {
   onResize() // update to the scale once
 }
 
+function createCameraFront() {
+  camera = new THREE.OrthographicCamera(
+  window.innerWidth / - 16, window.innerWidth / 16,
+    window.innerHeight / 16, window.innerHeight / - 16,
+    -200, 500 );
+    camera.position.x = 0;
+    camera.position.y = 0;
+    camera.position.z = 1;
+    camera.lookAt(scene.position);
+}
 function createCameraTop() {
   camera = new THREE.OrthographicCamera(
   window.innerWidth / - 16, window.innerWidth / 16,
@@ -129,12 +139,6 @@ function onKeyDown(e) {
     console.log(e.keyCode)
     switch (e.keyCode) {
     case 66: //B
-        scene.traverse(function (node) {
-            if (node instanceof THREE.Mesh) {
-                node.material.wireframe = !node.material.wireframe;
-                console.log(node)
-            }
-        });
         break;
     case 37: // left
         chair.rotate(5) // in degrees
@@ -154,19 +158,27 @@ function onKeyDown(e) {
     case 50: // 2
         createCameraSide();
         break;
-    case 65: //A
+    case 51: // 3
+        createCameraFront();
+        break;
+    case 52: // 4
         switchCamera();
+        break;
+    case 65: //A
+        // assuming all submeshes inherit material from parent object
+        for (var object in objects)
+          objects[object].material.wireframe = !objects[object].material.wireframe;
         break
     case 83:  //S
+        scene.traverse(function (node) {
+          if (node instanceof THREE.AxisHelper)
+            node.visible = !node.visible;
+        });
+        break;
     case 115: //s
         break;
     case 69:  //E
     case 101: //e
-        scene.traverse(function (node) {
-            if (node instanceof THREE.AxisHelper) {
-              node.visible = !node.visible;
-            }
-        });
         break;
     }
 }
