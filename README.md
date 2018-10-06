@@ -2,7 +2,7 @@
 * [ ] optimization
 
 ## Fields
-* [ ] chair motion (rotate Left and Right)
+* [x] chair motion (rotate Left and Right)
 * [ ] table (remodelar + mudar cor)
 * [ ] rotating wheels
 * [ ] make beautiful
