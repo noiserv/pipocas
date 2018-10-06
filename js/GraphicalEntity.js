@@ -250,7 +250,10 @@ class Chair extends GraphicalEntity {
       var delta = clock.getDelta();
       this.update_dof()
       //this.updateWheels()
+      var friction_factor = 5
 
+      if (this.velocity>0.05) this.velocity -= friction_factor*delta
+      else if (this.velocity<-0.05) this.velocity += friction_factor*delta
 
       this.velocity += this.acceleration*delta
       this.position.x += this.velocity*delta*this.dof.x

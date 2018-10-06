@@ -9,5 +9,5 @@
 
 ## Noiserv
 * [x] update window on re-size
-* [ ] deceleration (up down)
+* [x] deceleration (up down)
 * [ ] make beautiful
