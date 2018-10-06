@@ -144,13 +144,13 @@ function onKeyDown(e) {
         });
         break;
     case 37: // left
-        chair.rotate(10) // in degrees
+        chair.rotate(5) // in degrees
         break;
     case 38: // up
         chair.change_velocity(+1)
         break;
     case 39: // right
-        chair.rotate(-10) // in degrees
+        chair.rotate(-5) // in degrees
         break;
     case 40: // down
         chair.change_velocity(-1)
