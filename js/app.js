@@ -2,13 +2,8 @@
 
 var camera, scene, renderer;
 
-//var geometry, material, mesh;
-
 var objects = []; // Objects in the scene
 var objects_named = {} // object that are named and need to be called
-
-var ball;
-var chair;
 
 var clock = new THREE.Clock();
 
@@ -22,7 +17,6 @@ function createScene() {
 
     // object creation
     addObject( new Table(0, 8, 0),  "table");
-    addObject( new Ball(0, 0, 15),  "ball" );
     addObject( new Chair(0, 8, 15), "chair");
     addObject( new Lamp(30, 0, -25), "lamp");
 }
@@ -130,8 +124,7 @@ function onKeyDown(e) {
     'use strict';
 
     // getting the objects
-    chair = getObject("chair");
-    //console.log(chair)
+    var chair = getObject("chair");
 
     console.log(e.keyCode)
     switch (e.keyCode) {
@@ -206,36 +199,12 @@ function animate() {
     'use strict';
 
     // Update
-    /*if (ball.userData.jumping) {
-        ball.userData.step += 0.04;
-        ball.position.y = Math.abs(30 * (Math.sin(ball.userData.step)));
-        ball.position.z = 15 * (Math.cos(ball.userData.step));
-    }*/
-
     objects.map( function(object) {
       if (typeof object.update === 'function') object.update();
     });
-    /*scene.traverse(function (node) {
-        if (node instanceof THREE.Object3D) {
-          if (typeof node.update === 'function') node.update();
-        }
-      });*/
-
-
 
     // Display
-
     render();
 
     requestAnimationFrame(animate);
-}
-
-/******************************
-      OBJ TRANFORMATIONS
-******************************/
-
-function rotateObjectAround(obj,center, radious, rotation) {
-  obj.position.x = center.x - Math.sin(rotation)*radious;
-  obj.position.z = center.z - Math.cos(rotation)*radious;
-  obj.rotation.y = rotation;
 }

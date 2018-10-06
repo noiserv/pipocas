@@ -129,28 +129,6 @@ class Table extends GraphicalEntity {
 }
 
 /**
- * Ball Object & related functions
- */
-class Ball extends GraphicalEntity {
-  constructor(x, y, z){
-    super()
-
-    this.userData = { jumping: true, step: 0 };
-    this.velocity = new THREE.Vector3( 0, 0, 0 );
-    this.acceleration = new THREE.Vector3( 0, 0, 0 );
-
-    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-    var geometry = new THREE.SphereGeometry(4, 10, 10);
-    var mesh = new THREE.Mesh(geometry, this.material);
-
-    this.add(mesh);
-    this.position.set(x, y + 4, z);
-
-    scene.add(this);
-  }
-}
-
-/**
  * Chair Object & related functions
  */
 class Chair extends GraphicalEntity {
@@ -230,6 +208,9 @@ class Chair extends GraphicalEntity {
 
     updateWheels() {
       // no longer needed
+      /*
+        Change this to rotate the wheels
+      */
       for (var wheel in this.wheels){
         var rotation = 0;
 

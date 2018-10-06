@@ -11,7 +11,9 @@
 * [x] update window on re-size
 * [x] deceleration (up down)
 * [ ] make beautiful
+* [x] code cleanup
 
 ## Bugs to Fix
 * [ ] not all object react to wireframe disable on pressed "b"
 * [ ] check if side perspectives are well implemented
+* [ ] cannot rotate at the same time that goes forward
