@@ -210,7 +210,7 @@ class Chair extends GraphicalEntity {
       /*
         Change this to rotate the wheels
       */
-      for (var wheel in this.wheels){
+    /*  for (var wheel in this.wheels){
         var rotation = 0;
 
         var x = this.dof.x;
@@ -220,15 +220,21 @@ class Chair extends GraphicalEntity {
         else rotation = Math.acos(x);
 
         this.wheels[wheel].rotation.y = rotation;
+		*/
+		for (var wheel in this.wheels){
+			var rotation = 0
 
-        rotation = length / 100
-        this.wheels[wheel].rotation.z = rotation;
-      }
+        	
+        	rotation = this.velocity / 50;
+        	console.log(this.velocity);
+        	this.wheels[wheel].rotation.z += rotation;
+    	}
     }
 
     update() {
       var delta = clock.getDelta();
       this.update_dof()
+      this.updateWheels()
       //this.updateWheels()
       var friction_factor = 5
 
