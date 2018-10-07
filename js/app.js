@@ -16,8 +16,8 @@ function createScene() {
     scene.add(new THREE.AxisHelper(10));
 
     // object creation
-    addObject( new Table(0, 8, 0),  "table");
-    addObject( new Chair(0, 8, 15), "chair");
+    addObject( new Table(0, 19, 0),  "table");
+    addObject( new Chair(0, 15, 21), "chair");
     addObject( new Lamp(30, 0, -25), "lamp");
 }
 

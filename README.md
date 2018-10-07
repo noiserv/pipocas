@@ -3,8 +3,8 @@
 
 ## Fields
 * [x] chair motion (rotate Left and Right)
-* [ ] table (remodelar + mudar cor)
-* [ ] rotating wheels
+* [x] table (remodelar + mudar cor)
+* [x] rotating wheels
 * [ ] make beautiful
 
 ## Noiserv

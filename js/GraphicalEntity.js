@@ -44,7 +44,7 @@ class Lamp extends GraphicalEntity {
   constructor(x, y, z) {
     super()
 
-    this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    this.material = new THREE.MeshBasicMaterial({ color: 0xffff33, wireframe: true });
     this.name = "lamp"
 
     this.addLampBase( 0, 0, 0);
@@ -97,14 +97,14 @@ class Table extends GraphicalEntity {
   constructor(x, y, z) {
     super()
 
-    this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    this.material = new THREE.MeshBasicMaterial({ color: 0xcd853f, wireframe: true });
     this.name = "Table"
 
     this.addTableTop(  0,  0,  0);
-    this.addTableLeg(-25, -1, -8);
-    this.addTableLeg(-25, -1,  8);
-    this.addTableLeg( 25, -1,  8);
-    this.addTableLeg( 25, -1, -8);
+    this.addTableLeg(-25, -10, -8);
+    this.addTableLeg(-25, -10,  8);
+    this.addTableLeg( 25, -10,  8);
+    this.addTableLeg( 25, -10, -8);
 
     scene.add(this);
 
@@ -114,16 +114,16 @@ class Table extends GraphicalEntity {
   }
 
   addTableLeg( x, y, z) {
-      var geometry = new THREE.CylinderGeometry(1, 1, 6);
+      var geometry = new THREE.CylinderGeometry(1, 1, 18);
       var mesh = new THREE.Mesh(geometry, this.material);
-      mesh.position.set(x, y - 3, z);
+      mesh.position.set(x, y , z);
       this.add(mesh);
   }
 
   addTableTop( x, y, z) {
       var geometry = new THREE.CubeGeometry(60, 2, 20);
       var mesh = new THREE.Mesh(geometry, this.material);
-      mesh.position.set(x, y, z);
+      mesh.position.set(x, y , z);
       this.add(mesh);
   }
 }
@@ -206,28 +206,13 @@ class Chair extends GraphicalEntity {
 
 
     updateWheels() {
-      // no longer needed
-      /*
-        Change this to rotate the wheels
-      */
-    /*  for (var wheel in this.wheels){
-        var rotation = 0;
-
-        var x = this.dof.x;
-        var z = this.dof.z;
-
-        if (z > 0) rotation = -Math.acos(x);
-        else rotation = Math.acos(x);
-
-        this.wheels[wheel].rotation.y = rotation;
-		*/
-		for (var wheel in this.wheels){
-			var rotation = 0
+		  for (var wheel in this.wheels){
+        var rotation = 0
 
         	
-        	rotation = this.velocity / 50;
-        	console.log(this.velocity);
-        	this.wheels[wheel].rotation.z += rotation;
+        rotation = this.velocity / 60;
+        console.log(this.velocity);
+        this.wheels[wheel].rotation.z += rotation;
     	}
     }
 
