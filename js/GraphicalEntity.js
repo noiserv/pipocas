@@ -139,11 +139,12 @@ class Chair extends GraphicalEntity {
       this.name = "chair"
 
       this.material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, wireframe: true });
-      
+
       this.base = this.addChairBase( 0, 0, 0 )
       this.back = this.addChairBack( 0, 0, 0 )
       this.addChairSpindles( 0, 0, 0 )
-      this.addChairWheelsBase( 0, 0, 0 )
+      this.addChairWheelsBase( 0, 0, 0 , 0)
+      this.addChairWheelsBase( 0, 0, 0 , Math.PI/2)
       var numWheels = 4;
       for (var i = 0; i<2*Math.PI; i+=2*Math.PI/numWheels){
         this.wheels.push(this.addChairWheel( 0, 0, 0, 4, i));
@@ -153,11 +154,12 @@ class Chair extends GraphicalEntity {
       this.position.set(x, y, z)
     }
 
-    addChairWheelsBase( x, y, z) {
+    addChairWheelsBase( x, y, z, rotation) {
         'use strict';
-        var geometry = new  THREE.TorusGeometry(4, 1, 8, 20, Math.PI * 2);
+        //var geometry = new  THREE.TorusGeometry(4, 1, 8, 20, Math.PI * 2);
+        var geometry = new THREE.CubeGeometry(2, 1, 10);
         var mesh = new THREE.Mesh(geometry, this.material);
-        mesh.rotation.x = Math.PI / 2;
+        mesh.rotation.y = rotation;
         mesh.position.set(x, y - 12, z);
         this.add(mesh);
     }
@@ -209,7 +211,7 @@ class Chair extends GraphicalEntity {
 		  for (var wheel in this.wheels){
         var rotation = 0
 
-        	
+
         rotation = this.velocity / 60;
         console.log(this.velocity);
         this.wheels[wheel].rotation.z += rotation;
