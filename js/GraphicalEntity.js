@@ -156,7 +156,6 @@ class Chair extends GraphicalEntity {
 
     addChairWheelsBase( x, y, z, rotation) {
         'use strict';
-        //var geometry = new  THREE.TorusGeometry(4, 1, 8, 20, Math.PI * 2);
         var geometry = new THREE.CubeGeometry(2, 1, 10);
         var mesh = new THREE.Mesh(geometry, this.material);
         mesh.rotation.y = rotation;
