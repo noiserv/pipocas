@@ -140,18 +140,28 @@ class Chair extends GraphicalEntity {
 
       this.material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, wireframe: true });
 
-      this.base = this.addChairBase( 0, 0, 0 )
-      this.back = this.addChairBack( 0, 0, 0 )
-      this.addChairSpindles( 0, 0, 0 )
-      this.addChairWheelsBase( 0, 0, 0 , 0)
-      this.addChairWheelsBase( 0, 0, 0 , Math.PI/2)
+      this.base = this.addChairBase( 0, 12, 0 )
+      this.back = this.addChairBack( 0, 19, -7 )
+      this.addChairSpindles( 0, 8, 0 )
+      this.addChairArm( 8, 17, -2 )
+      this.addChairArm(-8, 17, -2 )
+      this.addChairWheelsBase( 0, 3, 0 , 0)
+      this.addChairWheelsBase( 0, 3, 0 , Math.PI/2)
       var numWheels = 4;
       for (var i = 0; i<2*Math.PI; i+=2*Math.PI/numWheels){
-        this.wheels.push(this.addChairWheel( 0, 0, 0, 4, i));
+        this.wheels.push(this.addChairWheel( 0, 1, 0, 4, i));
       }
 
       scene.add(this);
       this.position.set(x, y, z)
+    }
+
+    addChairArm( x, y, z) {
+        'use strict';
+        var geometry = new THREE.CubeGeometry(2, 1, 12);
+        var mesh = new THREE.Mesh(geometry, this.material);
+        mesh.position.set(x, y, z);
+        this.add(mesh);
     }
 
     addChairWheelsBase( x, y, z, rotation) {
@@ -159,7 +169,7 @@ class Chair extends GraphicalEntity {
         var geometry = new THREE.CubeGeometry(2, 1, 10);
         var mesh = new THREE.Mesh(geometry, this.material);
         mesh.rotation.y = rotation;
-        mesh.position.set(x, y - 12, z);
+        mesh.position.set(x, y, z);
         this.add(mesh);
     }
 
@@ -167,7 +177,7 @@ class Chair extends GraphicalEntity {
         'use strict';
         var geometry = new THREE.CubeGeometry(1, 9, 1);
         var mesh = new THREE.Mesh(geometry, this.material);
-        mesh.position.set(x, y - 7, z);
+        mesh.position.set(x, y, z);
         this.add(mesh);
     }
 
@@ -177,7 +187,7 @@ class Chair extends GraphicalEntity {
         var mesh = new THREE.Mesh(geometry, this.material);
         x += Math.cos(rotation)*radious
         z += Math.sin(rotation)*radious;
-        mesh.position.set(x, y - 14, z);
+        mesh.position.set(x, y, z);
         mesh.rotation.y += Math.PI/2
         this.add(mesh);
 
@@ -189,7 +199,8 @@ class Chair extends GraphicalEntity {
 
        var geometry = new THREE.CubeGeometry(15, 15, 2);
        var mesh = new THREE.Mesh(geometry, this.material);
-       mesh.position.set(x, y+4, z-6.5);
+       mesh.rotation.x = - Math.PI / 12
+       mesh.position.set(x, y, z);
        this.add(mesh);
 
        return mesh;
@@ -197,9 +208,9 @@ class Chair extends GraphicalEntity {
 
    addChairBase( x, y, z) {
        'use strict';
-       var geometry = new THREE.CubeGeometry(15, 1.5, 15);
+       var geometry = new THREE.CubeGeometry(15, 1.5, 12);
        var mesh = new THREE.Mesh(geometry, this.material);
-       mesh.position.set(x, y - 3, z);
+       mesh.position.set(x, y, z);
        this.add(mesh);
 
        return mesh;
