@@ -2,6 +2,7 @@
 
 var camera, scene, renderer;
 
+var keys_pressed = {}; // stores the keys pressed
 var objects = []; // Objects in the scene
 var objects_named = {} // object that are named and need to be called
 
@@ -130,57 +131,66 @@ function onResize() {
   renderer.setSize( w, h );
 }
 
+function onKeyUp(e) {
+  'use strict';
+  keys_pressed[e.keyCode]=false;
+}
+
 function onKeyDown(e) {
     'use strict';
 
     // getting the objects
     var chair = getObject("chair");
 
-    console.log(e.keyCode)
-    switch (e.keyCode) {
-    case 66: //B
-        break;
-    case 37: // left
-        chair.rotate(5) // in degrees
-        break;
-    case 38: // up
-        chair.change_velocity(+1)
-        break;
-    case 39: // right
-        chair.rotate(-5) // in degrees
-        break;
-    case 40: // down
-        chair.change_velocity(-1)
-        break;
-    case 49: // 1
-        createCameraTop();
-        break;
-    case 50: // 2
-        createCameraSide();
-        break;
-    case 51: // 3
-        createCameraFront();
-        break;
-    case 52: // 4
-        switchCamera();
-        break;
-    case 65: //A
-        // assuming all submeshes inherit material from parent object
-        for (var object in objects)
-          objects[object].material.wireframe = !objects[object].material.wireframe;
-        break
-    case 83:  //S
-        scene.traverse(function (node) {
-          if (node instanceof THREE.AxisHelper)
-            node.visible = !node.visible;
-        });
-        break;
-    case 115: //s
-        break;
-    case 69:  //E
-    case 101: //e
-        break;
+    keys_pressed[e.keyCode]=true
+    for (var key in keys_pressed) {
+      if (!keys_pressed[key]) continue;
+      switch (key) {
+          case "66": //B
+              break;
+          case "37": // left
+              chair.rotate(5) // in degrees
+              break;
+          case "38": // up
+              chair.change_velocity(+1)
+              break;
+          case "39": // right
+              chair.rotate(-5) // in degrees
+              break;
+          case "40": // down
+              chair.change_velocity(-1)
+              break;
+          case "49": // 1
+              createCameraTop();
+              break;
+          case "50": // 2
+              createCameraSide();
+              break;
+          case "51": // 3
+              createCameraFront();
+              break;
+          case "52": // 4
+              switchCamera();
+              break;
+          case "65": //A
+              // assuming all submeshes inherit material from parent object
+              for (var object in objects)
+                objects[object].material.wireframe = !objects[object].material.wireframe;
+              break
+          case "83":  //S
+              scene.traverse(function (node) {
+                if (node instanceof THREE.AxisHelper)
+                  node.visible = !node.visible;
+              });
+              break;
+          case "115": //s
+              break;
+          case "69":  //E
+          case "101": //e
+              break;
+      }
     }
+
 }
 
 function render() {
@@ -204,6 +214,7 @@ function init() {
     render();
 
     window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
     window.addEventListener("resize", onResize);
 }
 

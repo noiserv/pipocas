@@ -223,7 +223,6 @@ class Chair extends GraphicalEntity {
 
 
         rotation = this.velocity / 60;
-        console.log(this.velocity);
         this.wheels[wheel].rotation.z += rotation;
     	}
     }
