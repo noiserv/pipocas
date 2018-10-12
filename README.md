@@ -16,5 +16,9 @@
 * [x] BUG: not all object react to wireframe disable on pressed "b"
 
 ## Bugs to Fix
-* [ ] check if side perspectives are well implemented
-* [ ] cannot rotate at the same time that goes forward
+* [ ] Support more materials per object
+* [ ] add velocity on rotation (deltat)
+* [ ] object groupings
+* [ ] resize window (m)
+
+> Perguntar tintin por tintin TUDO pq o enunciado nao explica uma $#r+!
