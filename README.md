@@ -16,9 +16,7 @@
 * [x] BUG: not all object react to wireframe disable on pressed "b"
 
 ## Bugs to Fix
-* [ ] Support more materials per object
-* [ ] add velocity on rotation (deltat)
-* [ ] object groupings
-* [ ] resize window (m)
-
-> Perguntar tintin por tintin TUDO pq o enunciado nao explica uma $#r+!
+* [x] Support more materials per object
+* [x] add velocity on rotation (deltat)
+* [x] object groupings
+* [x] resize window (m)
